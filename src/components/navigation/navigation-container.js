@@ -9,15 +9,11 @@ export default class NavigationComponent extends Component {
   render() {
     return (
       <div>
-        <NavLink exact to="/">
-         Home
-        </NavLink>
-
-        <NavLink to="/about-me">
-          About
-        </NavLink>
-        <button>Contact</button>
-        <button>Blog</button>
+        <NavLink exact to="/">Home</NavLink>
+        <NavLink to="/about-me">About</NavLink>
+        <NavLink to="/blog">Blog</NavLink>
+        <NavLink to="/contact">Content</NavLink>
+        
         {false ? <button>Add Blog</button> : null}
       </div>
     );

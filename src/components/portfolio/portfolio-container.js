@@ -1,22 +1,16 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 import PortfolioItem from "./portfolio-item";
-import NavigationComponent from "../navigation/navigation-container";
 
 export default class PortfolioContainer extends Component {
   constructor() {
     super();
 
     this.state = {
-        
       pageTitle: "Welcome to my portfolio",
       isLoading: false,
-      data: [
-        { title: "Quip", category: "eCommerce" },
-        { title: "Eventbrite", category: "Scheduling" },
-        { title: "Ministry Safe", category: "Enterprise" },
-        { title: "SwingAway", category: "eCommerce" }
-      ]
+      data: []
     };
 
     this.handleFilter = this.handleFilter.bind(this);
@@ -30,10 +24,27 @@ export default class PortfolioContainer extends Component {
     });
   }
 
+  getPortfolioItems() {
+    axios
+      .get("https://jordan.devcamp.space/portfolio/portfolio_items")
+      .then(response => {
+        this.setState({
+          data: response.data.portfolio_items
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   portfolioItems() {
     return this.state.data.map(item => {
-      return <PortfolioItem title={item.title} url={"google.com"} />;
+      return <PortfolioItem title={item.name} url={item.url} slug={item.id} />;
     });
+  }
+
+  componentDidMount() {
+    this.getPortfolioItems();
   }
 
   render() {
@@ -43,7 +54,6 @@ export default class PortfolioContainer extends Component {
 
     return (
       <div>
-        <NavigationComponent/>
         <h2>{this.state.pageTitle}</h2>
 
         <button onClick={() => this.handleFilter("eCommerce")}>
